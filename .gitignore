@@ -1,6 +1,9 @@
 # Mac specific
 .DS_Store
 
+# VSCODE
+.vscode
+
 # Data
 data/
 
