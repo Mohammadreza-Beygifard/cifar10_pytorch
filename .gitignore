@@ -4,6 +4,9 @@
 # VSCODE
 .vscode
 
+# Pycharm
+.idea/
+
 # Data
 data/
 
