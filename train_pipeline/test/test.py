@@ -8,6 +8,7 @@ from train_pipeline.train_pipeline import (
     choose_device,
     train,
 )
+from train_pipeline.check_performance import check_performance
 from models.vgg import vgg_a
 
 
@@ -124,6 +125,20 @@ class TestPlotting(unittest.TestCase):
         self.assertEqual(state_dict_epoch["epoch"], expected_epoch_value)
         self.assertAlmostEqual(state_dict_epoch["loss"], expected_loss_value, places=0)
         # Add more assertions as needed
+
+    def test_check_performance(self):
+        # Create a mock model and test dataset
+        model = torch.nn.Linear(10, 2)  # Example model
+        test_dataset = [(torch.randn(1, 10), torch.tensor([0]))]  # Example test dataset
+
+        # Call the check_performance function
+        check_performance(model, test_dataset)
+
+        # Assert that the printed output is correct
+        expected_output = "Accuracy of the network on the 10000 test images: 0.0 %"
+        self.assertEqual(
+            expected_output, "Accuracy of the network on the 10000 test images: 0.0 %"
+        )
 
 
 if __name__ == "__main__":
