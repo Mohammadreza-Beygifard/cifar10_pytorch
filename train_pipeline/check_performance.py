@@ -1,6 +1,9 @@
 import torch
 import os
 from datetime import datetime
+from torch.utils.data import DataLoader
+import torch.nn as nn
+from torchvision import datasets
 
 
 def save_model_state(state_dict_epoch: dict):
@@ -14,22 +17,28 @@ def save_model_state(state_dict_epoch: dict):
 
 
 def load_model_state():
-    if os.path.exists("./model_state"):
-        files = os.listdir("./model_state")
+    current_dir = os.getcwd()
+    model_state_dir = os.path.join(current_dir, "model_state")
+    if os.path.exists(model_state_dir):
+        files = os.listdir(model_state_dir)
         if len(files) > 0:
-            latest_file = max(files, key=os.path.getctime)
-            return torch.load(f"./model_state/{latest_file}")
+            file_paths = [os.path.join(model_state_dir, file) for file in files]
+            latest_file = max(file_paths, key=os.path.getctime)
+            model_state_path = os.path.join(model_state_dir, latest_file)
+            print(f"Loading model state from {model_state_path}")
+            return torch.load(model_state_path)
     return None
 
 
-def check_performance(model, test_dataset):
+def check_performance(model: nn.Module, test_dataset: datasets):
     model.to(torch.device("cpu"))
     model.eval()
     correct = 0
     total = 0
+    batch_size = 1
+    validation_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
     with torch.no_grad():
-        for data in test_dataset:
-            images, labels = data
+        for images, labels in validation_loader:
             outputs = model(images)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
