@@ -29,8 +29,8 @@ def transform_provider(transform_type: str) -> torchvision.transforms:
     elif transform_type == "test":
         return transforms.Compose(
             [
-                transform_provider("primary").transforms[0],
                 transforms.ToTensor(),
+                transform_provider("primary").transforms[0],
             ]
         )
     elif transform_type == "train":

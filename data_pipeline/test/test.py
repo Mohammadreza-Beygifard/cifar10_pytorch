@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 import torchvision
 from data_pipeline.data_pipeline import get_cifar10, get_train_data, CustomDataset
 import torchvision.transforms as transforms
@@ -42,8 +42,8 @@ class TestGetCIFAR10(unittest.TestCase):
         transform_type = "test"
         expected_transform = transforms.Compose(
             [
-                transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
                 transforms.ToTensor(),
+                transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
             ]
         )
         actual_transform = transform_provider(transform_type)

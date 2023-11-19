@@ -8,7 +8,9 @@ from train_pipeline.train_pipeline import (
     choose_device,
     train,
 )
+from train_pipeline.check_performance import check_performance, load_model_state
 from models.vgg import vgg_a
+import os
 
 
 class TestPlotting(unittest.TestCase):
@@ -124,6 +126,41 @@ class TestPlotting(unittest.TestCase):
         self.assertEqual(state_dict_epoch["epoch"], expected_epoch_value)
         self.assertAlmostEqual(state_dict_epoch["loss"], expected_loss_value, places=0)
         # Add more assertions as needed
+
+    def test_check_performance(self):
+        # Create a mock model and test dataset
+        model = torch.nn.Linear(10, 2)  # Example model
+        test_dataset = [(torch.randn(1, 10), torch.tensor([0]))]  # Example test dataset
+
+        # Call the check_performance function
+        check_performance(model, test_dataset)
+
+        # Assert that the printed output is correct
+        expected_output = "Accuracy of the network on the 10000 test images: 0.0 %"
+        self.assertEqual(
+            expected_output, "Accuracy of the network on the 10000 test images: 0.0 %"
+        )
+
+    def test_load_model_state(self):
+        # Patch the necessary functions
+        with patch("os.path.exists", return_value=True), patch(
+            "os.listdir", return_value=["model_2022-01-01_12-00.pt"]
+        ), patch("torch.load", return_value=MagicMock()) as mock_load, patch(
+            "builtins.max", return_value="model_2022-01-01_12-00.pt"
+        ):
+            # Call the function under test
+            result = load_model_state()
+            current_dir = os.getcwd()
+            expected_model_state_dir = os.path.join(
+                current_dir, "model_state/model_2022-01-01_12-00.pt"
+            )
+            # Assertions
+            self.assertIsNotNone(result)
+            self.assertEqual(mock_load.call_count, 1)
+            self.assertEqual(
+                mock_load.call_args[0][0],
+                expected_model_state_dir,
+            )
 
 
 if __name__ == "__main__":
