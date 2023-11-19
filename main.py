@@ -12,7 +12,7 @@ if __name__ == "__main__":
     original_train_dataset, test_dataset = get_cifar10()
     train_dataset = get_train_data()
     model = vgg_a()
-    model_state = run_train(model, train_dataset, num_epochs=100)
+    model_state = run_train(model, train_dataset, num_epochs=3)
     check_performance(model, test_dataset)
     save_model_state(model_state)
     early_drop_model_state = load_model_state()
