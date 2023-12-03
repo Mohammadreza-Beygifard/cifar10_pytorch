@@ -26,4 +26,8 @@ conda install pytorch::pytorch torchvision torchaudio -c pytorch
 
 ## Suggestion
 
-To avoid messing up with your local envirnoment, I suggest you to create a conda virtual env and install the dependencies there and launch the Jupyter notbook with the kernel in the venv. You can follow [This guide by janakiev](https://janakiev.com/blog/jupyter-virtual-envs/) for more info.
+To avoid messing up with your local environment, I suggest you to create a conda virtual env and install the dependencies there and launch the Jupyter notebook with the kernel in the venv. You can follow [This guide by janakiev](https://janakiev.com/blog/jupyter-virtual-envs/) for more info.
+
+## Current performance:
+
+The current model state has a performance of 82.33% on the test data of CIFAR 10

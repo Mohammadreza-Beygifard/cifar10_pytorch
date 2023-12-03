@@ -10,11 +10,11 @@ from models.vgg import vgg_a
 
 if __name__ == "__main__":
     original_train_dataset, test_dataset = get_cifar10()
-    train_dataset = get_train_data()
+    # train_dataset = get_train_data()
     model = vgg_a()
-    model_state = run_train(model, train_dataset, num_epochs=100)
-    check_performance(model, test_dataset)
-    save_model_state(model_state)
+    # model_state = run_train(model, train_dataset)
+    # check_performance(model, test_dataset)
+    # save_model_state(model_state)
     early_drop_model_state = load_model_state()
     model.load_state_dict(early_drop_model_state)
     print("Check performance, early dropped model")

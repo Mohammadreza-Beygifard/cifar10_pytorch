@@ -1,0 +1,12 @@
+{
+    "optimizer": {
+        "learning_rate": 0.001,
+        "weight_decay": 0.01
+    },
+    "scheduler": {
+        "active": true,
+        "gamma": 0.9
+    },
+    "batch_size": 125,
+    "num_epochs": 100
+}

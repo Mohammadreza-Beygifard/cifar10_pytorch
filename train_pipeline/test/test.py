@@ -9,6 +9,11 @@ from train_pipeline.train_pipeline import (
     train,
 )
 from train_pipeline.check_performance import check_performance, load_model_state
+from train_pipeline.parameter_provider import (
+    TrainingParameters,
+    SchedulerParameters,
+    OptimizerParameters,
+)
 from models.vgg import vgg_a
 import os
 
@@ -81,10 +86,6 @@ class TestPlotting(unittest.TestCase):
             device = choose_device()
             self.assertEqual(device.type, "cpu")
 
-    def setUp(self):
-        # Set up any necessary data or mocks for testing
-        pass
-
     @patch("time.time", return_value=0)
     @patch(
         "train_pipeline.train_pipeline.plot_loss_accuracy",
@@ -108,7 +109,6 @@ class TestPlotting(unittest.TestCase):
 
         model = vgg_a()  # Instantiate your model
         train_dataset = MockDataset()
-        num_epochs = 5  # Adjust as needed
         state_dict_epoch = {"epoch": -1, "loss": float("inf"), "state_dict": None}
 
         # Mock the update_state_epoch function
@@ -117,8 +117,20 @@ class TestPlotting(unittest.TestCase):
             state_dict_epoch["loss"] = loss_value
             state_dict_epoch["state_dict"] = model_state
 
+        mock_optimizer_parameters = OptimizerParameters(
+            learning_rate=0.001, weight_decay=0.01
+        )
+        mock_scheduler_parameters = SchedulerParameters(active=True, gamma=0.9)
+        mock_training_parameters = TrainingParameters(
+            mock_optimizer_parameters, mock_scheduler_parameters, 125, 5
+        )
+
         train(
-            model, train_dataset, num_epochs, state_dict_epoch, mock_update_state_epoch
+            model,
+            train_dataset,
+            mock_training_parameters,
+            state_dict_epoch,
+            mock_update_state_epoch,
         )
 
         # Add your assertions based on the expected behavior of your train function
