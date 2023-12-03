@@ -12,7 +12,7 @@ class TestTrainingParameters(unittest.TestCase):
     @patch(
         "builtins.open",
         mock_open(
-            read_data='{"optimizer": {"learning_rate": 0.001, "weight_decay": 0.0001}, "scheduler": {"active": true, "gamma": 0.9}, "batch_size": 128}'
+            read_data='{"optimizer": {"learning_rate": 0.001, "weight_decay": 0.0001}, "scheduler": {"active": true, "gamma": 0.9}, "batch_size": 128, "num_epochs": 100}'
         ),
     )
     def test_get_parameters(self):
@@ -22,6 +22,7 @@ class TestTrainingParameters(unittest.TestCase):
         self.assertTrue(result["scheduler"]["active"])
         self.assertEqual(result["scheduler"]["gamma"], 0.9)
         self.assertEqual(result["batch_size"], 128)
+        self.assertEqual(result["num_epochs"], 100)
 
     def test_get_optimizer_parameters(self):
         with patch(
@@ -50,6 +51,7 @@ class TestTrainingParameters(unittest.TestCase):
                 "optimizer": {"learning_rate": 0.001, "weight_decay": 0.0001},
                 "scheduler": {"active": True, "gamma": 0.9},
                 "batch_size": 128,
+                "num_epochs": 100,
             },
         ):
             result = get_training_parameters()
@@ -58,6 +60,7 @@ class TestTrainingParameters(unittest.TestCase):
             self.assertTrue(result.scheduler_parameters.active)
             self.assertEqual(result.scheduler_parameters.gamma, 0.9)
             self.assertEqual(result.batch_size, 128)
+            self.assertEqual(result.num_epochs, 100)
 
 
 if __name__ == "__main__":

@@ -48,7 +48,6 @@ def choose_device() -> torch.device:
 def train(
     model: nn.Module,
     train_dataset: datasets,
-    num_epochs: int,
     training_parameters: TrainingParameters,
     state_dict_epoch: dict,
     update_state_epoch: callable,
@@ -59,12 +58,12 @@ def train(
 
     print(f"Starting training on {device}")
 
-    epochs = range(num_epochs)
+    epochs = range(training_parameters.num_epochs)
 
     # This is used for drawing the loss against the epochs
     loss_list = []
 
-    # This is used for calculating the acuracy throw training
+    # This is used for calculating the accuracy throw training
     correct = 0
     total = 0
     accuracy_list = []
@@ -117,9 +116,9 @@ def train(
 
         if training_parameters.scheduler_parameters.active:
             scheduler.step()
-        if (epoch + 1) % (num_epochs / 5) == 0 or epoch == 0:
+        if (epoch + 1) % (training_parameters.num_epochs / 5) == 0 or epoch == 0:
             print(
-                f"Epoch [{epoch+1}/{num_epochs}] - Loss: {loss.item():.4f} - Accuracy: {accuracy * 100:.2f}%"
+                f"Epoch [{epoch+1}/{training_parameters.num_epochs}] - Loss: {loss.item():.4f} - Accuracy: {accuracy * 100:.2f}%"
             )
 
     end_time = time.time()
@@ -138,7 +137,7 @@ def custom_weight_init(module):
         nn.init.xavier_normal_(module.weight)
 
 
-def run_train(model: nn.Module, train_dataset: datasets, num_epochs: int = 3) -> dict:
+def run_train(model: nn.Module, train_dataset: datasets) -> dict:
     model.apply(custom_weight_init)
 
     state_dict_epoch = {"epoch": 0, "loss": 0, "state_dict": {}}
@@ -148,7 +147,6 @@ def run_train(model: nn.Module, train_dataset: datasets, num_epochs: int = 3) ->
     train(
         model,
         train_dataset,
-        num_epochs,
         training_parameters,
         state_dict_epoch,
         update_state_epoch,

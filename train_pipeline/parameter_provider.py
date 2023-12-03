@@ -19,6 +19,7 @@ class TrainingParameters:
     optimizer_parameters: OptimizerParameters
     scheduler_parameters: SchedulerParameters
     batch_size: int
+    num_epochs: int
 
 
 def get_parameters():
@@ -53,6 +54,7 @@ def get_training_parameters():
         get_optimizer_parameters(),
         get_scheduler_parameters(),
         parameters["batch_size"],
+        parameters["num_epochs"],
     )
 
     return training_parameters
