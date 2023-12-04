@@ -30,4 +30,4 @@ To avoid messing up with your local environment, I suggest you to create a conda
 
 ## Current performance:
 
-The current model state has a performance of 82.33% on the test data of CIFAR 10
+The current model state has a performance of 82.92% on the test data of CIFAR 10
