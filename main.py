@@ -12,12 +12,15 @@ import argparse
 
 
 class StoreTrueAction(argparse.Action):
-    def __init__(self, option_strings, dest, default=False, required=False, help=None):
+    def __init__(
+        self, option_strings, dest, type, default=False, required=False, help=None
+    ):
         super(StoreTrueAction, self).__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=0,
             const=True,
+            type=type,
             default=default,
             required=required,
             help=help,
@@ -29,9 +32,11 @@ class StoreTrueAction(argparse.Action):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--train", action=StoreTrueAction, default=False)
     parser.add_argument(
-        "-c", "--check-performance", action=StoreTrueAction, default=False
+        "-t", "--train", action=StoreTrueAction, type=bool, default=False
+    )
+    parser.add_argument(
+        "-c", "--check-performance", action=StoreTrueAction, type=bool, default=False
     )
     parser.add_argument("-p", "--path-image", type=str, default="")
     return parser.parse_args()
