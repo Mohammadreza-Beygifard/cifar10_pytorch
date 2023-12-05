@@ -11,10 +11,28 @@ from models.vgg import vgg_a
 import argparse
 
 
+class StoreTrueAction(argparse.Action):
+    def __init__(self, option_strings, dest, default=False, required=False, help=None):
+        super(StoreTrueAction, self).__init__(
+            option_strings=option_strings,
+            dest=dest,
+            nargs=0,
+            const=True,
+            default=default,
+            required=required,
+            help=help,
+        )
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, self.const)
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--train", type=bool, default=False)
-    parser.add_argument("-c", "--check-performance", type=bool, default=False)
+    parser.add_argument("-t", "--train", action=StoreTrueAction, default=False)
+    parser.add_argument(
+        "-c", "--check-performance", action=StoreTrueAction, default=False
+    )
     parser.add_argument("-p", "--path-image", type=str, default="")
     return parser.parse_args()
 
