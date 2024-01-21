@@ -73,4 +73,7 @@ def check_performance(model: nn.Module, test_dataset: datasets):
             "Truck",
         ],
     ).plot(values_format="d")
+    plt.title("Confusion matrix")
+    plt.xticks(rotation=90)
+    plt.subplots_adjust(left=0.05, right=0.9, top=0.9, bottom=0.25)
     plt.savefig("confusion_matrix.png")
