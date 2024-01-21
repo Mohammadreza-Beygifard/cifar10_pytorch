@@ -20,7 +20,7 @@ def plot_loss_accuracy(loss: list, accuracy: list, epochs: list, silent: bool = 
     plt.plot(epochs, accuracy, color="green", label="accuracy")
     plt.legend(loc="upper left")
     if not silent:
-        plt.show()
+        plt.savefig("loss_accuracy.png")
 
 
 def update_state_epoch(epoch, loss_value, model_state, state_dict_epoch):
