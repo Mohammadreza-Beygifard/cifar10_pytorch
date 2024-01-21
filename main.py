@@ -44,7 +44,17 @@ def parse_args():
 
 if __name__ == "__main__":
     """
-    If you want to train the model, set --train=True
+    If you want to train the model, set --train like this:
+    python main.py --train
+
+    If you want to check the performance of the model, set --check_performance like this:
+    python main.py --check_performance
+
+    If you want to run inference on an image, set --path_image like this:
+    python main.py --path_image path/to/image.png
+
+    You can Train and then check the performance like this:
+    python main.py --train --check_performance
     """
     args = parse_args()
     model = vgg_a()
