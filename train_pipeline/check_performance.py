@@ -1,6 +1,13 @@
 import torch
 import os
 from datetime import datetime
+import matplotlib.pyplot as plt
+from sklearn.metrics import (
+    accuracy_score,
+    balanced_accuracy_score,
+    confusion_matrix,
+    ConfusionMatrixDisplay,
+)
 from torch.utils.data import DataLoader
 import torch.nn as nn
 from torchvision import datasets
@@ -33,16 +40,40 @@ def load_model_state():
 def check_performance(model: nn.Module, test_dataset: datasets):
     model.to(torch.device("cpu"))
     model.eval()
-    correct = 0
-    total = 0
     batch_size = 1
     validation_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+    true_labels = []
+    predicted_labels = []
     with torch.no_grad():
         for images, labels in validation_loader:
             outputs = model(images)
             _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
+
+            true_labels.append(labels.item())
+            predicted_labels.append(predicted.item())
+    accuracy = accuracy_score(true_labels, predicted_labels)
+    balanced_accuracy = balanced_accuracy_score(true_labels, predicted_labels)
+    cm = confusion_matrix(true_labels, predicted_labels)
+    print(f"Accuracy of the network on the 10000 test images: {100 * accuracy:.2f} %")
     print(
-        f"Accuracy of the network on the 10000 test images: {100 * correct / total} %"
+        f"Balanced Accuracy of the network on the 10000 test images: {100 * balanced_accuracy:.2f} %"
     )
+    ConfusionMatrixDisplay(
+        cm,
+        display_labels=[
+            "Airplane",
+            "Automobile",
+            "Bird",
+            "Cat",
+            "Deer",
+            "Dog",
+            "Frog",
+            "Horse",
+            "Ship",
+            "Truck",
+        ],
+    ).plot(values_format="d")
+    plt.title("Confusion matrix")
+    plt.xticks(rotation=90)
+    plt.subplots_adjust(left=0.05, right=0.9, top=0.9, bottom=0.25)
+    plt.savefig("confusion_matrix.png")

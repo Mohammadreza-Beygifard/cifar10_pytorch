@@ -146,12 +146,7 @@ class TestPlotting(unittest.TestCase):
 
         # Call the check_performance function
         check_performance(model, test_dataset)
-
-        # Assert that the printed output is correct
-        expected_output = "Accuracy of the network on the 10000 test images: 0.0 %"
-        self.assertEqual(
-            expected_output, "Accuracy of the network on the 10000 test images: 0.0 %"
-        )
+        # No assertion here as we are just checking if the function runs without errors
 
     def test_load_model_state(self):
         # Patch the necessary functions
