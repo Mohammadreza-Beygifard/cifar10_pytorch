@@ -31,3 +31,33 @@ To avoid messing up with your local environment, I suggest you to create a conda
 ## Current performance:
 
 The current model state has a performance of 82.92% on the test data of CIFAR 10
+
+## Usage
+
+If you want to train the model, set --train like this:
+
+```shell
+python main.py --train
+```
+
+If you want to check the performance of the model, set --check_performance like this:
+
+```shell
+python main.py --check_performance
+```
+
+If you want to run inference on an image, set --path_image like this:
+
+```shell
+python main.py --path_image path/to/image.png
+```
+
+You can Train and then check the performance like this:
+
+```shell
+python main.py --train --check_performance
+```
+
+## Fine tuning hyper parameters
+
+To fine tune hyper-parameters you can change the parameters in training_parameters.json
